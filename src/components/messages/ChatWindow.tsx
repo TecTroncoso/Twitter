@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Send } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -59,7 +60,10 @@ export function ChatWindow({ messages, otherUser, onSend, isSending }: ChatWindo
   return (
     <div className="flex h-full flex-col">
       {/* Header */}
-      <div className="flex items-center gap-3 border-b border-border p-4">
+      <Link
+        to={`/user/${otherUser.username}`}
+        className="flex items-center gap-3 border-b border-border p-4 hover:bg-muted/50 transition-colors"
+      >
         <Avatar className="h-10 w-10">
           <AvatarImage src={otherUser.avatar_url || undefined} />
           <AvatarFallback>
@@ -67,10 +71,10 @@ export function ChatWindow({ messages, otherUser, onSend, isSending }: ChatWindo
           </AvatarFallback>
         </Avatar>
         <div>
-          <p className="font-bold">{otherUser.full_name || otherUser.username}</p>
+          <p className="font-bold hover:underline">{otherUser.full_name || otherUser.username}</p>
           <p className="text-sm text-muted-foreground">@{otherUser.username}</p>
         </div>
-      </div>
+      </Link>
 
       {/* Messages */}
       <ScrollArea ref={scrollRef} className="flex-1 p-4">
