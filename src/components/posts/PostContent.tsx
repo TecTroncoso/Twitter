@@ -11,7 +11,7 @@ const combinedRegex = new RegExp(`(${hashtagRegex.source}|${mentionRegex.source}
 
 export function PostContent({ content }: PostContentProps) {
   const parts = content.split(combinedRegex);
-  
+
   return (
     <p className="mt-1 whitespace-pre-wrap break-words">
       {parts.map((part, index) => {
@@ -28,14 +28,14 @@ export function PostContent({ content }: PostContentProps) {
             </Link>
           );
         }
-        
+
         // Check if it's a mention
         if (part.match(mentionRegex)) {
           const username = part.slice(1); // Remove the @
           return (
             <Link
               key={index}
-              to={`/profile/${username}`}
+              to={`/user/${username}`}
               className="text-primary hover:underline"
               onClick={(e) => e.stopPropagation()}
             >
@@ -43,7 +43,7 @@ export function PostContent({ content }: PostContentProps) {
             </Link>
           );
         }
-        
+
         return part;
       })}
     </p>
