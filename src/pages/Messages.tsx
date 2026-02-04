@@ -69,7 +69,7 @@ export default function Messages() {
 
         {/* Chat Window */}
         {(!isMobile || showChat) && (
-          <div className={`${isMobile ? 'w-full' : 'flex-1'} flex flex-col`}>
+          <div className={`${isMobile ? 'w-full' : 'flex-1'} flex flex-col h-full overflow-hidden`}>
             {isMobile && selectedConversationId && (
               <header className="sticky top-0 z-10 flex items-center gap-2 border-b border-border bg-background/80 px-2 py-3 backdrop-blur">
                 <Button
@@ -85,7 +85,7 @@ export default function Messages() {
                 </span>
               </header>
             )}
-            <div className="flex-1">
+            <div className="flex-1 min-h-0 overflow-hidden">
               <ChatWindow
                 messages={messages}
                 otherUser={selectedConversation?.other_user || null}
