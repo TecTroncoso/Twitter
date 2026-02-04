@@ -76,7 +76,12 @@ export function useConversations() {
 
           return {
             ...conv,
-            other_user: userResult.data,
+            other_user: userResult.data ?? {
+              id: otherUserId,
+              username: 'usuario',
+              full_name: null,
+              avatar_url: null,
+            },
             last_message: messageResult.data,
             unread_count: unreadResult.count || 0,
           } as Conversation;
