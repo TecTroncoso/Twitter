@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
+import { MentionAutocomplete } from '@/components/ui/MentionAutocomplete';
 import { useAuth } from '@/contexts/AuthContext';
 import { useProfile } from '@/hooks/useProfile';
 import { useCreatePost } from '@/hooks/usePosts';
@@ -14,7 +14,7 @@ export function CreatePost() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+
   const { user } = useAuth();
   const { data: profile } = useProfile();
   const createPost = useCreatePost();
@@ -89,19 +89,20 @@ export function CreatePost() {
       </Avatar>
 
       <div className="flex-1">
-        <Textarea
+        <MentionAutocomplete
           placeholder="¿Qué está pasando?"
           value={content}
-          onChange={(e) => setContent(e.target.value)}
+          onChange={setContent}
+          maxLength={280}
           className="min-h-[80px] resize-none border-none bg-transparent text-lg placeholder:text-muted-foreground focus-visible:ring-0"
         />
 
         {/* Image Preview */}
         {imagePreview && (
           <div className="relative mt-3 rounded-2xl overflow-hidden">
-            <img 
-              src={imagePreview} 
-              alt="Preview" 
+            <img
+              src={imagePreview}
+              alt="Preview"
               className="max-h-80 w-full object-cover rounded-2xl"
             />
             {uploading && (
@@ -131,10 +132,10 @@ export function CreatePost() {
               onChange={handleImageSelect}
               className="hidden"
             />
-            <Button 
-              type="button" 
-              variant="ghost" 
-              size="icon" 
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
               className="h-9 w-9 rounded-full text-primary"
               onClick={() => fileInputRef.current?.click()}
               disabled={uploading || !!imageUrl}
@@ -149,8 +150,8 @@ export function CreatePost() {
                 {charsRemaining}
               </span>
             )}
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               disabled={!canSubmit}
               className="rounded-full px-4"
             >
