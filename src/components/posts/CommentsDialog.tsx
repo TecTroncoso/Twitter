@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { X, Trash2 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
+import { MentionAutocomplete } from '@/components/ui/MentionAutocomplete';
 import {
   Dialog,
   DialogContent,
@@ -80,9 +80,9 @@ export function CommentsDialog({ post, open, onOpenChange }: CommentsDialogProps
             </div>
           ) : (
             comments?.map((comment) => (
-              <CommentItem 
-                key={comment.id} 
-                comment={comment} 
+              <CommentItem
+                key={comment.id}
+                comment={comment}
                 onDelete={handleDelete}
                 isOwner={user?.id === comment.user_id}
               />
@@ -94,15 +94,15 @@ export function CommentsDialog({ post, open, onOpenChange }: CommentsDialogProps
         {user && (
           <form onSubmit={handleSubmit} className="p-4 border-t border-border">
             <div className="flex gap-3">
-              <Textarea
+              <MentionAutocomplete
                 placeholder="Escribe tu comentario..."
                 value={content}
-                onChange={(e) => setContent(e.target.value)}
+                onChange={setContent}
                 className="min-h-[60px] resize-none"
                 maxLength={280}
               />
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 disabled={!content.trim() || createComment.isPending}
                 className="self-end"
               >
@@ -144,7 +144,7 @@ function CommentItem({ comment, onDelete, isOwner }: CommentItemProps) {
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-1 min-w-0">
-            <Link 
+            <Link
               to={`/user/${comment.profiles.username}`}
               className="font-bold hover:underline truncate text-sm"
             >
@@ -159,9 +159,9 @@ function CommentItem({ comment, onDelete, isOwner }: CommentItemProps) {
             </span>
           </div>
           {isOwner && (
-            <Button 
-              variant="ghost" 
-              size="icon" 
+            <Button
+              variant="ghost"
+              size="icon"
               className="h-6 w-6 text-muted-foreground hover:text-destructive"
               onClick={() => onDelete(comment.id)}
             >
