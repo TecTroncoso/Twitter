@@ -58,7 +58,7 @@ export function ChatWindow({ messages, otherUser, onSend, isSending }: ChatWindo
   }
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full flex-col overflow-hidden">
       {/* Header */}
       <Link
         to={`/user/${otherUser.username}`}
@@ -77,8 +77,8 @@ export function ChatWindow({ messages, otherUser, onSend, isSending }: ChatWindo
       </Link>
 
       {/* Messages */}
-      <ScrollArea ref={scrollRef} className="flex-1 p-4">
-        <div className="space-y-4">
+      <ScrollArea ref={scrollRef} className="flex-1 min-h-0">
+        <div className="space-y-4 p-4">
           {messages.map((message) => {
             const isOwn = message.sender_id === user?.id;
 
