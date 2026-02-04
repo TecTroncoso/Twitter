@@ -33,12 +33,12 @@ export default function Explore() {
   const hasQuery = query.length >= 1;
 
   return (
-    <MainLayout hideRightSidebar>
+    <MainLayout>
       {/* Header */}
       <header className="sticky top-0 z-10 border-b border-border bg-background/80 backdrop-blur">
         <div className="flex items-center gap-4 px-4 py-3">
-          <SearchBox 
-            className="flex-1" 
+          <SearchBox
+            className="flex-1"
             expandable={false}
             onSearch={handleSearch}
           />
@@ -47,25 +47,25 @@ export default function Explore() {
 
         {/* Tabs */}
         {hasQuery && (
-          <Tabs 
-            value={activeTab} 
+          <Tabs
+            value={activeTab}
             onValueChange={(v) => setActiveTab(v as typeof activeTab)}
             className="w-full"
           >
             <TabsList className="w-full justify-start rounded-none border-b-0 bg-transparent h-auto p-0">
-              <TabsTrigger 
+              <TabsTrigger
                 value="all"
                 className="flex-1 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent py-3 font-semibold"
               >
                 Todos
               </TabsTrigger>
-              <TabsTrigger 
+              <TabsTrigger
                 value="users"
                 className="flex-1 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent py-3 font-semibold"
               >
                 Personas
               </TabsTrigger>
-              <TabsTrigger 
+              <TabsTrigger
                 value="posts"
                 className="flex-1 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent py-3 font-semibold"
               >
