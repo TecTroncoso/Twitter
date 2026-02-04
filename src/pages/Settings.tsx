@@ -15,7 +15,7 @@ import { toast } from 'sonner';
 export default function Settings() {
   const { data: profile } = useProfile();
   const updateProfile = useUpdateProfile();
-  
+
   const [username, setUsername] = useState(profile?.username || '');
   const [fullName, setFullName] = useState(profile?.full_name || '');
   const [bio, setBio] = useState(profile?.bio || '');
@@ -47,7 +47,7 @@ export default function Settings() {
   };
 
   return (
-    <MainLayout hideRightSidebar>
+    <MainLayout>
       {/* Header */}
       <header className="sticky top-0 z-10 flex items-center gap-4 border-b border-border bg-background/80 px-4 py-3 backdrop-blur">
         <Link to="/profile">
@@ -69,7 +69,7 @@ export default function Settings() {
             <User className="h-5 w-5" />
             <h2 className="text-lg font-semibold">Información del perfil</h2>
           </div>
-          
+
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="username">Nombre de usuario</Label>
@@ -130,8 +130,8 @@ export default function Settings() {
         <Separator />
 
         {/* Save Button */}
-        <Button 
-          onClick={handleSave} 
+        <Button
+          onClick={handleSave}
           className="w-full"
           disabled={updateProfile.isPending}
         >
