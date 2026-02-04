@@ -21,7 +21,7 @@ export function useCommentsCount(postId: string) {
     queryFn: async () => {
       const { data, error } = await supabase
         .rpc('get_comments_count', { p_post_id: postId });
-      
+
       if (error) throw error;
       return data as number;
     },
@@ -44,9 +44,17 @@ export function useComments(postId: string) {
         `)
         .eq('post_id', postId)
         .order('created_at', { ascending: true });
-      
+
       if (error) throw error;
-      return data as Comment[];
+      // Filter out comments with null profiles and provide fallback
+      return (data || []).map((comment) => ({
+        ...comment,
+        profiles: comment.profiles ?? {
+          username: 'usuario_eliminado',
+          full_name: null,
+          avatar_url: null,
+        },
+      })) as Comment[];
     },
   });
 }
@@ -71,7 +79,7 @@ export function useCreateComment() {
           )
         `)
         .single();
-      
+
       if (error) throw error;
       return data as Comment;
     },
@@ -91,7 +99,7 @@ export function useDeleteComment() {
         .from('comments')
         .delete()
         .eq('id', commentId);
-      
+
       if (error) throw error;
       return postId;
     },
