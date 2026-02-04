@@ -53,9 +53,23 @@ export function usePosts() {
           )
         `)
         .order('created_at', { ascending: false });
-      
+
       if (error) throw error;
-      return data as Post[];
+
+      const fallbackProfile = {
+        username: 'usuario_eliminado',
+        full_name: null,
+        avatar_url: null,
+      };
+
+      return (data || []).map((post) => ({
+        ...post,
+        profiles: post.profiles ?? fallbackProfile,
+        quoted_post: post.quoted_post ? {
+          ...post.quoted_post,
+          profiles: post.quoted_post.profiles ?? fallbackProfile,
+        } : null,
+      })) as Post[];
     },
   });
 }
@@ -86,9 +100,23 @@ export function useUserPosts(userId: string) {
         `)
         .eq('user_id', userId)
         .order('created_at', { ascending: false });
-      
+
       if (error) throw error;
-      return data as Post[];
+
+      const fallbackProfile = {
+        username: 'usuario_eliminado',
+        full_name: null,
+        avatar_url: null,
+      };
+
+      return (data || []).map((post) => ({
+        ...post,
+        profiles: post.profiles ?? fallbackProfile,
+        quoted_post: post.quoted_post ? {
+          ...post.quoted_post,
+          profiles: post.quoted_post.profiles ?? fallbackProfile,
+        } : null,
+      })) as Post[];
     },
     enabled: !!userId,
   });
@@ -104,8 +132,8 @@ export function useCreatePost() {
 
       const { data, error } = await supabase
         .from('posts')
-        .insert({ 
-          user_id: user.id, 
+        .insert({
+          user_id: user.id,
           content,
           image_url: imageUrl || null
         })
@@ -118,7 +146,7 @@ export function useCreatePost() {
           )
         `)
         .single();
-      
+
       if (error) throw error;
       return data as Post;
     },
@@ -137,7 +165,7 @@ export function useDeletePost() {
         .from('posts')
         .delete()
         .eq('id', postId);
-      
+
       if (error) throw error;
     },
     onSuccess: () => {
